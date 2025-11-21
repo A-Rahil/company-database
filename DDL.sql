@@ -1,25 +1,27 @@
-CREATE TABLE Employee(
-	Fname VARCHAR(15) NOT NULL,
+CREATE TABLE Employee (
+    Fname VARCHAR(15) NOT NULL,
     Minit CHAR,
     Lname VARCHAR(15) NOT NULL,
-	Ssn INT NOT NULL,
-	Bdate DATE,
+    Ssn INT NOT NULL,
+    Bdate DATE,
     Address VARCHAR(25),
+    Sex CHAR,
     Salary INT NOT NULL,
     Super_ssn INT,
     Dno INT DEFAULT 21,
-    PRIMARY KEY(Ssn),
-	FOREIGN KEY(Super_ssn) REFERENCES EMPLOYEE(Ssn)
-		ON UPDATE CASCADE ON DELETE SET NULL
+    PRIMARY KEY (Ssn),
+    FOREIGN KEY (Super_ssn)
+        REFERENCES EMPLOYEE (Ssn)
+        ON UPDATE CASCADE ON DELETE SET NULL
 );
 
-CREATE TABLE DEPARTMENT(
-	Dname VARCHAR(20),
-    Dnumber INT CHECK(Dnumber > 0 AND Dnumber <= 21),
+CREATE TABLE DEPARTMENT (
+    Dname VARCHAR(20),
+    Dnumber INT CHECK (Dnumber > 0 AND Dnumber <= 21),
     Mgr_ssn INT DEFAULT 99999,
     Mgr_start_date DATE,
-    PRIMARY KEY(Dnumber),
-	UNIQUE(Dname)
+    PRIMARY KEY (Dnumber),
+    UNIQUE (Dname)
 );
 
 ALTER TABLE DEPARTMENT
@@ -32,43 +34,48 @@ ADD CONSTRAINT FK_Emp_Dept
 FOREIGN KEY(Dno) REFERENCES DEPARTMENT(Dnumber)
 ON UPDATE CASCADE ON DELETE SET NULL;
 
-CREATE TABLE DEPT_LOCATIONS(
-	Dnumber INT,
+CREATE TABLE DEPT_LOCATIONS (
+    Dnumber INT,
     Dlocation VARCHAR(25),
-    PRIMARY KEY (Dnumber, Dlocation),
-    FOREIGN KEY (Dnumber) REFERENCES DEPARTMENT(Dnumber) 
-		ON UPDATE CASCADE ON DELETE CASCADE
+    PRIMARY KEY (Dnumber , Dlocation),
+    FOREIGN KEY (Dnumber)
+        REFERENCES DEPARTMENT (Dnumber)
+        ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE PROJECT(
+CREATE TABLE PROJECT (
     Pname VARCHAR(15),
     Pnumber INT,
     Plocation VARCHAR(15),
     Dnum INT,
     PRIMARY KEY (Pnumber),
-    FOREIGN KEY (Dnum) REFERENCES DEPARTMENT(Dnumber)
+    FOREIGN KEY (Dnum)
+        REFERENCES DEPARTMENT (Dnumber)
         ON UPDATE CASCADE ON DELETE SET NULL,
-    UNIQUE(Pname)
+    UNIQUE (Pname)
 );
 
-CREATE TABLE WORKS_ON(
+CREATE TABLE WORKS_ON (
     Essn INT,
     Pno INT,
     Hours INT CHECK (Hours > 0 AND Hours < 45),
-    PRIMARY KEY (Essn, Pno),
-    FOREIGN KEY (Essn) REFERENCES EMPLOYEE(Ssn)
+    PRIMARY KEY (Essn , Pno),
+    FOREIGN KEY (Essn)
+        REFERENCES EMPLOYEE (Ssn)
         ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (Pno) REFERENCES PROJECT(Pnumber)
+    FOREIGN KEY (Pno)
+        REFERENCES PROJECT (Pnumber)
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE DEPENDENT(
+CREATE TABLE DEPENDENT (
     Essn INT NOT NULL,
     Dependent_name VARCHAR(20) NOT NULL,
     Sex CHAR,
     Bdate DATE,
     Relationship VARCHAR(15),
-    PRIMARY KEY (Essn, Dependent_name),
-    FOREIGN KEY (Essn) REFERENCES EMPLOYEE (Ssn)
+    PRIMARY KEY (Essn , Dependent_name),
+    FOREIGN KEY (Essn)
+        REFERENCES EMPLOYEE (Ssn)
         ON UPDATE CASCADE ON DELETE CASCADE
 );
