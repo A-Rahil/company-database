@@ -1,5 +1,111 @@
+SELECT D.Dname, E.Lname, E.Fname, P.Pname
+FROM DEPARTMENT D, EMPLOYEE E, WORKS_ON W, PROJECT P
+WHERE D.Dnumber=E.Dno AND E.Ssn=W.Essn AND W.Pno=P.Pnumber
+ORDER BY Dname, Lname;
+
+SELECT Fname, Lname, Salary*1.1 AS BONUS
+FROM EMPLOYEE, WORKS_ON, PROJECT
+WHERE Pname='ProductX' AND Pnumber=Pno AND Essn=Ssn;
+
+SELECT Fname, Lname
+FROM EMPLOYEE
+WHERE Bdate LIKE "195_";
+
+SELECT Fname, Lname
+FROM EMPLOYEE
+WHERE Address LIKE "%Houston, TX";
+
+SELECT Pnumber, Pname, COUNT(*)
+FROM WORKS_ON, PROJECT
+WHERE Pnumber=Pno
+GROUP BY Pnumber, Pname
+HAVING COUNT(*) > 2;
+
+SELECT Pnumber, Pname, COUNT(*)
+FROM PROJECT, WORKS_ON
+WHERE Pno=Pnumber
+GROUP BY Pnumber, Pname;
+
+SELECT Dno, COUNT(*), AVG(Salary)
+FROM EMPLOYEE
+GROUP BY Dno;
+
+SELECT COUNT(*)
+FROM EMPLOYEE;
+
+SELECT COUNT(*)
+FROM EMPLOYEE, DEPARTMENT
+WHERE Dno=Dnumber AND Dname='Research';
+
+SELECT MAX(Salary), MIN(Salary), AVG(Salary)
+FROM EMPLOYEE, DEPARTMENT
+WHERE Dno=Dnumber AND Dname='Research';
+
+SELECT MAX(Salary), MIN(Salary), AVG(Salary)
+FROM EMPLOYEE
+
+SELECT Fname, Lname
+FROM EMPLOYEE
+WHERE Super_ssn IS NULL;
+
 DELETE FROM EMPLOYEE
 WHERE Ssn='123456789';
+
+SELECT DISTINCT Ssn AS EMP_SOCIAL_SECURITY
+FROM WORKS_ON
+WHERE Pno in (1, 2, 3);
+
+SELECT DISTINCT Ssn
+FROM WORKS_ON
+WHERE Pno IN (1, 2, 3);
+
+SELECT Fname, Lname
+FROM EMPLOYEE
+WHERE EXISTS (
+	SELECT * 
+    FROM DEPARTMENT
+    WHERE Mgr_ssn=Ssn
+) AND EXISTS (
+	SELECT *
+    FROM DEPENDENT
+    WHERE Essn=Ssn
+);
+
+SELECT Fname, Lname
+FROM EMPLOYEE
+WHERE NOT EXISTS (
+	SELECT *
+    FROM DEPENDENT
+    WHERE Essn=Ssn
+)
+
+SELECT E.Fname, E.Lname
+FROM EMPLOYEE AS E
+WHERE EXISTS (
+	SELECT *
+    FROM DEPENDENT AS D
+    WHERE E.Sex=D.Sex AND E.Fname=D.Dependent_name AND E.Ssn=D.Essn
+);
+
+SELECT E.Fname, E.Lname
+FROM EMPLOYEE AS E, DEPENDENT AS D
+WHERE E.Sex=F.Sex AND E.Fname=D.Dependent_name AND E.Ssn=D.Essn;
+
+SELECT Fname, Lname
+FROM EMPLOYEE
+WHERE Salary > ALL (
+	SELECT Salary
+    FROM EMPLOYEE
+    WHERE Dnp=5
+);
+
+SELECT Fname, Lname, Address
+FROM EMPLOYEE
+WHERE Dno IN (
+	SELECT Dnumber 
+    FROM DEPARTMENT
+    WHERE Dname='Research'
+)
 
 SELECT Fname, Lname
 FROM EMPLOYEE AS E, DEPENDENT AS D
