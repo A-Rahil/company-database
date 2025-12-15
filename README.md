@@ -28,5 +28,5 @@ Due to the circular relationship between **Employee** (belongs to Dept) and **De
     * It applies the circular Foreign Key constraints (`FK_Dept_Mgr` and `FK_Emp_Dept`) using `ALTER TABLE` at the end to avoid errors.
 2.  **Execute `DML.sql`**:
     * Inserts the sample data into the tables.
-3.  **Execute `Queries.sql`**:
+3.  **Execute `query.sql`**:
     * Run specific queries to test the database functionality.
