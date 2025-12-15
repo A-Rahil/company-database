@@ -6,7 +6,7 @@ This repository contains the SQL scripts to build, populate, and query a relatio
 
 * **`DDL.sql`**: Defines the database schema (Tables, Primary Keys, Foreign Keys, and Constraints).
 * **`DML.sql`**: Populates the tables with sample data.
-* **`Queries.sql`**: Contains various SQL queries for data analysis and reporting.
+* **`query.sql`**: Contains various SQL queries for data analysis and reporting.
 
 ## Database Schema
 ![Database Schema](Schema.svg)
